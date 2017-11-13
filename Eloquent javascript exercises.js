@@ -164,3 +164,25 @@ function groupBy(array, groupOf) {
 groupBy(ancestry, function(person) {
   return Math.ceil(person.died / 100);
 })
+
+function every(array, action) {
+  for (var i = 0; i < array.length; i++) {
+    if (!action(array[i]))
+      return false;
+  }
+  return true;
+}
+
+var testArray = [NaN, NaN, NaN, 4];
+
+console.log(every(testArray, isNaN));
+
+function some(array, action) {
+  for (var i = 0; i < array.length; i++) {
+    if (action(array[i]))
+      return true;
+  }
+  return false;
+}
+
+console.log(some(testArray, isNaN));
