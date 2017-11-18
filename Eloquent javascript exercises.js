@@ -186,3 +186,27 @@ function some(array, action) {
 }
 
 console.log(some(testArray, isNaN));
+
+function rowHeights(rows) {
+  return rows.map(function(row) {
+    return row.reduce(function(max, cell) {
+      return Math.max(max, cell)
+    }, 0);
+  });
+}
+
+var rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+
+console.log(rowHeights(rows));
+
+function colWidths(rows) {
+  return rows[0].map(function(_, i) {
+    return rows.reduce(function(max, row) {
+      return Math.max(max, row[i]);
+    }, 0);
+  });
+}
+
+console.log(colWidths(rows));
+
+
