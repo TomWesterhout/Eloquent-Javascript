@@ -209,4 +209,21 @@ function colWidths(rows) {
 
 console.log(colWidths(rows));
 
+var rows = [];
+function chess(size) {
+  for (var i = 0; i < size; i++) {
+    var row = [];
+    for (var j = 0; j < size; j++) {
+      var symbol = "";
+      if ((i + j) % 2 === 0)
+        symbol = "##";
+      else
+        symbol = "  ";
+      row.push(symbol);
+    }
+    rows.push(row);
+  }
+  return rows;
+}
 
+console.log(chess(8));
