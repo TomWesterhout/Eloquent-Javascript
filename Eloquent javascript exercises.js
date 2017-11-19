@@ -187,43 +187,70 @@ function some(array, action) {
 
 console.log(some(testArray, isNaN));
 
+TextCell.prototype.minHeight = function() {
+  return this.text.length;
+}
+
+TextCell.prototype.minWidth = function() {
+  return this.text.reduce(function(width, line) {
+    return Math.max(width, line.length);
+  }, 0);
+};
+
 function rowHeights(rows) {
   return rows.map(function(row) {
     return row.reduce(function(max, cell) {
-      return Math.max(max, cell)
+      return Math.max(max, cell.minHeight());
     }, 0);
   });
 }
-
-var rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-
-console.log(rowHeights(rows));
 
 function colWidths(rows) {
   return rows[0].map(function(_, i) {
     return rows.reduce(function(max, row) {
-      return Math.max(max, row[i]);
-    }, 0);
+      return Math.max(max, row[i].minWidth());
+    });
   });
 }
 
-console.log(colWidths(rows));
-
-var rows = [];
-function chess(size) {
-  for (var i = 0; i < size; i++) {
-    var row = [];
-    for (var j = 0; j < size; j++) {
-      var symbol = "";
-      if ((i + j) % 2 === 0)
-        symbol = "##";
-      else
-        symbol = "  ";
-      row.push(symbol);
-    }
-    rows.push(row);
+function drawTable(rows) {
+  var heights = rowHeights(rows);
+  var widths = colWidths(rows);
+  
+  function drawLine(blocks, lineNo) {
+    return blocks.map(function(block) {
+      return block[lineNo];
+    }).join(" ");
   }
-  return rows;
+  
+  function drawRow(row, rowNum) {
+    var blocks = row.map(function(cell, colNum) {
+      return cell.draw(widths[colNum], heights[rowNum]);
+    });
+    return blocks[0].map(function(_, lineNo) {
+      return drawline(blocks, lineNo);
+    }).join("\n");
+  }
+  
+  return rows.map(drawRow).join("\n");
 }
 
-console.log(chess(8));
+function TextCell(text) {
+  this.text = text.split("\n");
+}
+
+var rows = [];
+for (var i = 0; i < 2; i++) {
+  var row = [];
+  for (var j = 0; j < 2; j++) {
+    if ((i + j) % 2 === 0)
+      row.push(new TextCell("##"));
+    else
+      row.push(new TextCell("  "));
+  }
+  rows.push(row);
+}
+
+console.log(drawTable(rows));
+
+
