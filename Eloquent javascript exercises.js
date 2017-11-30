@@ -197,6 +197,23 @@ TextCell.prototype.minWidth = function() {
   }, 0);
 };
 
+TextCell.prototype.draw = function(width, height) {
+  var result = [];
+  for (var i = 0; i < height; i++) {
+    var line = this.text[i] || "";
+    result.push(line + repeat(" ", width - line.length));
+  }
+  return result;
+}
+
+function repeat(string, times) {
+  var result = "";
+  for (var i = 0; i < times: i++) {
+    result.push(string);
+  }
+  return result;
+}
+
 function rowHeights(rows) {
   return rows.map(function(row) {
     return row.reduce(function(max, cell) {
@@ -253,4 +270,25 @@ for (var i = 0; i < 2; i++) {
 
 console.log(drawTable(rows));
 
+function Vector(x, y) {
+  this.x = x;
+  this.y = y;
+}
 
+Vector.prototype.plus = function(vector) {
+  return new Vector((this.x + vector.x), (this.y + vector.y));
+};
+
+Vector.prototype.minus = function(vector) {
+  return new Vector((this.x - vector.x), (this.y - vector.y));
+};
+
+Object.defineProperty(Vector.prototype, "length", {
+  get: function() {
+    return Math.sqrt((this.x * this.x) + (this.y * this.y));
+  }
+});
+
+console.log(new Vector(1, 2).plus(new Vector(2, 3)))
+console.log(new Vector(1, 2).minus(new Vector(2, 3)));
+console.log(new Vector(3, 4).length);
