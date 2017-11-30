@@ -204,7 +204,7 @@ TextCell.prototype.draw = function(width, height) {
     result.push(line + repeat(" ", width - line.length));
   }
   return result;
-}
+};
 
 function repeat(string, times) {
   var result = "";
@@ -292,3 +292,32 @@ Object.defineProperty(Vector.prototype, "length", {
 console.log(new Vector(1, 2).plus(new Vector(2, 3)))
 console.log(new Vector(1, 2).minus(new Vector(2, 3)));
 console.log(new Vector(3, 4).length);
+
+function StretchCell(inner, width, height) {
+  this.inner = inner;
+  this.width = width;
+  this.height = height;
+}
+
+StretchCell.prototype.minWidth = function() {
+  return Math.max(this.width, this.inner.minWidth);
+};
+
+StretchCell.prototype.minHeight = function() {
+  return Math.max(this.width, this.inner.minWidth);
+};
+
+StretchCell.prototype.draw = function(width, height) {
+  var result = [];
+  for (var i = 0; i < height; i++) {
+    var line = this.text[i] || "";
+    result.push(line + repeat(" ", width - line.length));
+  }
+  return result;
+};
+
+var sc = new StretchCell(new TextCell("abc"), 1, 2);
+console.log(sc.minWidth());
+console.log(sc.minHeight());
+console.log(sc.draw(3, 2));
+
