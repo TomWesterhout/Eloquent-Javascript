@@ -308,12 +308,7 @@ StretchCell.prototype.minHeight = function() {
 };
 
 StretchCell.prototype.draw = function(width, height) {
-  var result = [];
-  for (var i = 0; i < height; i++) {
-    var line = this.text[i] || "";
-    result.push(line + repeat(" ", width - line.length));
-  }
-  return result;
+  return this.inner.draw(width, height);
 };
 
 var sc = new StretchCell(new TextCell("abc"), 1, 2);
@@ -321,3 +316,26 @@ console.log(sc.minWidth());
 console.log(sc.minHeight());
 console.log(sc.draw(3, 2));
 
+function ArraySeq(array) {
+  this.pos = 0;
+  this.array = array;
+}
+
+ArraySeq.prototype.current = function() {
+  return this.array[this.pos];
+}
+
+ArraySeq.prototype.next = function() {
+  if (this.pos >= this.array.length)
+    return false;
+  this.pos++;
+  return true;
+};
+
+function logFive(array) {
+  for ( var i = 0; i < 5; i++) {
+    if (!array.next())
+      break;
+    console.log(array.current());
+  }
+}
